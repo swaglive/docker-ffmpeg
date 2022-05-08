@@ -16,7 +16,6 @@ WORKDIR     FFmpeg-n${version}
 
 RUN         ./configure \
                 --disable-debug \
-                --disable-programs \
                 --disable-doc \
                 --disable-htmlpages \
                 --disable-manpages \
