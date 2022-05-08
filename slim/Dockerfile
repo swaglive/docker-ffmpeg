@@ -8,7 +8,8 @@ RUN         apk add --virtual .build-deps \
                 build-base \
                 nasm \
                 yasm \
-                pkgconf && \
+                pkgconf \
+                openssl-dev && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR     FFmpeg-n${version}
