@@ -11,10 +11,6 @@ RUN         apt-get update && \
                 yasm \
                 pkg-config \
                 libssl-dev \
-                libfdk-aac-dev \
-                libopenjp2-7-dev \
-                libx264-dev \
-                libwebp-dev \
                 libpng-dev && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
