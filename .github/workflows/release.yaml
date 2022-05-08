@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        version: ["4.4.1"]
+        version: ["5.0.1", "4.4.1"]
         flavor: ["slim", "slim-ubuntu"]
 
     steps:
