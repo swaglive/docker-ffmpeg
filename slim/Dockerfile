@@ -31,7 +31,8 @@ RUN         ./configure \
                 --disable-indevs \
                 --disable-outdevs \
                 --enable-small && \
-            make
+            make && \
+            make install
 
 ###
 
