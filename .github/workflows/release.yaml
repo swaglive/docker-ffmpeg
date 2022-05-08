@@ -10,12 +10,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        include:
-        - image: ffprobe
-          tagPrefix: slim
-          buildContext: ./ffprobe-slim
 
     strategy:
       matrix:
