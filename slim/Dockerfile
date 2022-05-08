@@ -9,7 +9,12 @@ RUN         apk add --virtual .build-deps \
                 nasm \
                 yasm \
                 pkgconf \
-                openssl-dev && \
+                openssl-dev \
+                fdk-aac-dev \
+                openjpeg-dev \
+                x264-dev \
+                libwebp-dev \
+                libpng-dev && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR     FFmpeg-n${version}
@@ -27,10 +32,10 @@ RUN         ./configure \
                 --disable-muxers \
                 --disable-filters \
                 --disable-hwaccels \
-                --disable-decoders \
                 --disable-indevs \
                 --disable-outdevs \
-                --enable-small && \
+                --enable-small \
+                --enable-openssl && \
             make && \
             make install
 
