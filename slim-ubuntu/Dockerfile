@@ -10,7 +10,12 @@ RUN         apt-get update && \
                 nasm \
                 yasm \
                 pkg-config \
-                libssl-dev && \
+                libssl-dev \
+                libfdk-aac-dev \
+                libopenjp2-7-dev \
+                libx264-dev \
+                libwebp-dev \
+                libpng-dev && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR     FFmpeg-n${version}
