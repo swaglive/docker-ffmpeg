@@ -43,7 +43,6 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          swaglive/ffmpeg
           ghcr.io/${{ github.repository_owner }}/ffmpeg
         flavor: |
           suffix=-${{ matrix.flavor }}
