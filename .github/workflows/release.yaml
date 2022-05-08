@@ -13,7 +13,8 @@ jobs:
 
     strategy:
       matrix:
-        version: []
+        version: ["4.4.1"]
+        flavor: ["slim"]
 
     steps:
     - name: Checkout
@@ -55,7 +56,7 @@ jobs:
         context: .
         build-args: |
           version=${{ matrix.version }}
-          base=python:${{ matrix.python }}-alpine
+          MAKEFLAGS=-j8
         push: ${{ !steps.config.outputs.skip-push-to-registry }}
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
