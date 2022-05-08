@@ -6,7 +6,7 @@ ARG         MAKEFLAGS="-j4"
 ENV         DEBIAN_FRONTEND=noninteractive
 
 RUN         apt-get update && \
-            apt-get install --no-install-recommends -y \
+            apt-get install -y \
                 curl \
                 build-essential \
                 nasm \
@@ -18,7 +18,12 @@ WORKDIR     FFmpeg-n${version}
 
 RUN         ./configure \
                 --disable-debug \
+                # --disable-programs \
                 --disable-doc \
+                --disable-htmlpages \
+                --disable-manpages \
+                --disable-podpages \
+                --disable-txtpages \
                 --disable-ffmpeg \
                 --disable-ffplay \
                 --disable-encoders \
@@ -28,4 +33,14 @@ RUN         ./configure \
                 --disable-decoders \
                 --disable-indevs \
                 --disable-outdevs \
-                --enable-small
+                --enable-small && \
+            make
+
+###
+
+FROM        ubuntu
+
+ENTRYPOINT  ["ffmpeg"]
+
+COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
+COPY        --from=ffmpeg /usr/local/include /usr/local/include
