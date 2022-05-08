@@ -46,7 +46,7 @@ jobs:
           swaglive/ffmpeg
           ghcr.io/${{ github.repository_owner }}/ffmpeg
         flavor: |
-          suffix=${{ matrix.flavor }}
+          suffix=-${{ matrix.flavor }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
 
