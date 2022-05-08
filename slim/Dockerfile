@@ -1,24 +1,21 @@
-FROM        ubuntu as ffmpeg
+FROM        alpine:3.15 as ffmpeg
 
 ARG         version=4.4.1
 ARG         MAKEFLAGS="-j4"
 
-ENV         DEBIAN_FRONTEND=noninteractive
-
-RUN         apt-get update && \
-            apt-get install -y \
+RUN         apk add --virtual .build-deps \
                 curl \
-                build-essential \
+                build-base \
                 nasm \
                 yasm \
-                pkg-config && \
+                pkgconf && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR     FFmpeg-n${version}
 
 RUN         ./configure \
                 --disable-debug \
-                # --disable-programs \
+                --disable-programs \
                 --disable-doc \
                 --disable-htmlpages \
                 --disable-manpages \
@@ -38,7 +35,7 @@ RUN         ./configure \
 
 ###
 
-FROM        ubuntu
+FROM        alpine:3.15
 
 ENTRYPOINT  ["ffmpeg"]
 
