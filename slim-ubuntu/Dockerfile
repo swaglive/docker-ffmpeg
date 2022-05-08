@@ -4,7 +4,7 @@ ARG         version=4.4.1
 ARG         MAKEFLAGS="-j4"
 
 RUN         apt-get update && \
-            apt-get install -y \
+            apt-get install --no-install-recommends -y \
                 curl \
                 build-essential \
                 nasm \
