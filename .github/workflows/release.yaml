@@ -50,6 +50,14 @@ jobs:
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
 
+    - name: Setup
+      id: config
+      run: |
+        NPROC=$(nproc)
+
+        echo "NPROC=$NPROC" >> $GITHUB_ENV
+        echo "::set-output name=NPROC::$NPROC"
+
     - name: Build
       uses: docker/build-push-action@v3
       id: build
@@ -57,7 +65,7 @@ jobs:
         context: ${{ matrix.flavor }}
         build-args: |
           version=${{ matrix.version }}
-          MAKEFLAGS=-j8
+          MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
         push: ${{ !steps.config.outputs.skip-push-to-registry }}
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
