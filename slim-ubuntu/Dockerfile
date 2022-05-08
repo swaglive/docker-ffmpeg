@@ -3,8 +3,6 @@ FROM        ubuntu as ffmpeg
 ARG         version=4.4.1
 ARG         MAKEFLAGS="-j4"
 
-ENV         DEBIAN_FRONTEND=noninteractive
-
 RUN         apt-get update && \
             apt-get install -y \
                 curl \
