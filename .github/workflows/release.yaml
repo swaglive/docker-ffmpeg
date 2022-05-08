@@ -1,14 +1,12 @@
-name: Release
+name: Docker
 
 on:
   push:
 
-env:
-  REGISTRY: ghcr.io
-
 jobs:
-  build-docker:
+  build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
       packages: write
@@ -19,64 +17,53 @@ jobs:
           tagPrefix: slim
           buildContext: ./ffprobe-slim
 
+    strategy:
+      matrix:
+        version: []
+
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
-    - name: Setup Environment - Setup buildx
-      uses: docker/setup-buildx-action@v1
+    - name: Setup - buildx
+      uses: docker/setup-buildx-action@v2
 
-    - name: Setup Environment - Set variable `push-to-registry`
-      id: push-to-registry
-      uses: actions-ecosystem/action-regex-match@v2
+    - name: Setup - Docker Hub
+      uses: docker/login-action@v2
+      if: ${{ !steps.config.outputs.skip-push-to-registry }}
       with:
-        text: ${{ github.ref }}
-        regex: ^refs\/tags\/
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Setup Environment - Login to Github Container Registry
-      uses: docker/login-action@v1
-      if: ${{ steps.push-to-registry.outputs.match != '' }}
+    - name: Setup - Github Container Registry
+      uses: docker/login-action@v2
+      if: ${{ !steps.config.outputs.skip-push-to-registry }}
       with:
-        registry: ${{ env.REGISTRY }}
+        registry: ghcr.io
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-  
-    - name: Setup Environment - Extract metadata (tags, labels) for Docker
+        password: ${{ github.token }}
+
+    - name: Setup - Docker image metadata
       id: meta
-      uses: docker/metadata-action@v3
+      uses: docker/metadata-action@v4
       with:
         images: |
-          ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image }}
+          swaglive/ffmpeg
+          ghcr.io/${{ github.repository_owner }}/ffmpeg
         tags: |
-          type=sha,prefix=${{ matrix.tagPrefix }}-
+          type=semver,pattern={{major}},value=${{ matrix.version }}
+          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
 
-    - name: Build - ffprobe-slim
-      uses: docker/build-push-action@v2
+    - name: Build
+      uses: docker/build-push-action@v3
+      id: build
       with:
-        context: ${{ matrix.buildContext }}
-        push: ${{ steps.push-to-registry.outputs.match != '' }}
+        context: .
+        build-args: |
+          version=${{ matrix.version }}
+          base=python:${{ matrix.python }}-alpine
+        push: ${{ !steps.config.outputs.skip-push-to-registry }}
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
-
-  create-release:
-    if: startsWith(github.ref, 'refs/tags/')
-    runs-on: ubuntu-latest
-    needs:
-    - build-docker
-
-    steps:
-    - name: Setup Environment - Set variable `check-if-prelease`
-      id: check-if-prelease
-      uses: actions-ecosystem/action-regex-match@v2
-      with:
-        text: ${{ github.ref }}
-        regex: ^refs\/tags\/v?[0-9]+\.[0-9]+\.[0-9]+\-
-
-    - name: Create Release
-      uses: softprops/action-gh-release@v1
-      with:
-        prerelease: ${{ steps.check-if-prelease.outputs.match != '' }}
-        fail_on_unmatched_files: true
-        discussion_category_name: Announcements

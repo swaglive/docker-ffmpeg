@@ -1,0 +1,20 @@
+version: 2
+updates:
+- package-ecosystem: github-actions
+  directory: /
+  schedule:
+    interval: daily
+  reviewers:
+  - swaglive/backend-maintainers
+  labels:
+  - p2
+  - enhancement
+- package-ecosystem: docker
+  directory: /
+  schedule:
+    interval: daily
+  reviewers:
+  - swaglive/backend-maintainers
+  labels:
+  - p2
+  - enhancement
