@@ -10,10 +10,7 @@ RUN         apk add --virtual .build-deps \
                 yasm \
                 pkgconf \
                 openssl-dev \
-                fdk-aac-dev \
-                openjpeg-dev \
-                x264-dev \
-                libwebp-dev \
+                x265-dev \
                 libpng-dev && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
