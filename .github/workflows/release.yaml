@@ -45,15 +45,16 @@ jobs:
         images: |
           swaglive/ffmpeg
           ghcr.io/${{ github.repository_owner }}/ffmpeg
+        flavor: |
+          suffix=${{ matrix.flavor }}
         tags: |
-          type=semver,pattern={{major}},value=${{ matrix.version }}
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
 
     - name: Build
       uses: docker/build-push-action@v3
       id: build
       with:
-        context: .
+        context: ${{ matrix.flavor }}
         build-args: |
           version=${{ matrix.version }}
           MAKEFLAGS=-j8
