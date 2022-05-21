@@ -22,7 +22,6 @@ RUN         ./configure \
                 --disable-manpages \
                 --disable-podpages \
                 --disable-txtpages \
-                --disable-ffmpeg \
                 --disable-ffplay \
                 --disable-encoders \
                 --disable-muxers \
