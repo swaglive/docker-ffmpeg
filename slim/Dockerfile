@@ -1,7 +1,11 @@
-FROM        alpine:3.15 as ffmpeg
+ARG         base=alpine:3.16
 
-ARG         version=4.4.1
-ARG         MAKEFLAGS="-j4"
+###
+
+FROM        ${base} as ffmpeg
+
+ARG         version=5.1
+ARG         MAKEFLAGS="-j8"
 
 RUN         apk add --virtual .build-deps \
                 curl \
@@ -36,7 +40,7 @@ RUN         ./configure \
 
 ###
 
-FROM        alpine:3.15
+FROM        ${base}
 
 ENTRYPOINT  ["ffmpeg"]
 
