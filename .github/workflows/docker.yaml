@@ -53,6 +53,8 @@ jobs:
         images: |
           swaglive/ffmpeg
           ghcr.io/${{ github.repository_owner }}/ffmpeg
+        flavor: |
+          latest=false
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }},enable=${{ !matrix.flavor }}
           type=semver,pattern={{major}}.{{minor}},suffix=-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.flavor }}
