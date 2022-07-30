@@ -22,6 +22,10 @@ jobs:
         - "slim"
         includes:
         - version: "5.1.0"
+          flavor: ""
+          tag: "5.1"
+        - version: "5.1.0"
+          flavor: "slim"
           tag: "5.1"
 
     steps:
