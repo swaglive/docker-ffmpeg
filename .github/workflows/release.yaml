@@ -6,15 +6,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     permissions:
       contents: read
       packages: write
 
     strategy:
       matrix:
-        version: ["5.0.1", "4.4.1"]
-        flavor: ["slim"]
+        version:
+        - "5.1"
+        - "5.0.1"
+        - "4.4.1"
+        flavor:
+        - ""
+        - "slim"
 
     steps:
     - name: Checkout
@@ -45,10 +50,9 @@ jobs:
         images: |
           swaglive/ffmpeg
           ghcr.io/${{ github.repository_owner }}/ffmpeg
-        flavor: |
-          suffix=-${{ matrix.flavor }}
         tags: |
-          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
+          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }},enable=${{ !matrix.flavor }}
+          type=semver,pattern={{major}}.{{minor}},suffix=${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.flavor }}
 
     - name: Setup
       id: config
@@ -62,7 +66,7 @@ jobs:
       uses: docker/build-push-action@v3
       id: build
       with:
-        context: ${{ matrix.flavor }}
+        context: ${{ matrix.flavor || '.' }}
         build-args: |
           version=${{ matrix.version }}
           MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
