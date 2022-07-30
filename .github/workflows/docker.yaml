@@ -79,7 +79,7 @@ jobs:
         build-args: |
           version=${{ matrix.tag || matrix.version }}
           MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
-        push: false
+        push: ${{ !steps.config.outputs.skip-push-to-registry }}
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
         cache-from: type=gha
