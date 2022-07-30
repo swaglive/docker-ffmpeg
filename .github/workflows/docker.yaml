@@ -25,6 +25,7 @@ jobs:
           tag: "5.1"
         - version: "5.1.0"
           tag: "5.1"
+          flavor: ""
           latest: true
 
     steps:
