@@ -14,12 +14,15 @@ jobs:
     strategy:
       matrix:
         version:
-        - "5.1"
+        - "5.1.0"
         - "5.0.1"
         - "4.4.1"
         flavor:
         - ""
         - "slim"
+        includes:
+        - version: "5.1.0"
+          tag: "5.1"
 
     steps:
     - name: Checkout
@@ -68,7 +71,7 @@ jobs:
       with:
         context: ${{ matrix.flavor || '.' }}
         build-args: |
-          version=${{ matrix.version }}
+          version=${{ matrix.tag || matrix.version }}
           MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
         push: ${{ !steps.config.outputs.skip-push-to-registry }}
         labels: ${{ steps.meta.outputs.labels }}
