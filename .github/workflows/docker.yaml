@@ -23,6 +23,9 @@ jobs:
         include:
         - version: "5.1.0"
           tag: "5.1"
+        - version: "5.1.0"
+          tag: "5.1"
+          latest: true
 
     steps:
     - name: Checkout
@@ -54,7 +57,7 @@ jobs:
           swaglive/ffmpeg
           ghcr.io/${{ github.repository_owner }}/ffmpeg
         flavor: |
-          latest=false
+          latest=${{ matrix.latest }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }},enable=${{ !matrix.flavor }}
           type=semver,pattern={{major}}.{{minor}},suffix=-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.flavor }}
