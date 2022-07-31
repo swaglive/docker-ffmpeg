@@ -27,7 +27,6 @@ RUN         apk add --virtual .build-deps \
                 soxr-dev \
                 libssh-dev \
                 libtheora-dev \
-                v4l-utils-dev \
                 vidstab-dev \
                 libvorbis-dev \
                 libvpx-dev \
@@ -71,7 +70,6 @@ RUN         ./configure \
                 --enable-libx264 \
                 --enable-libx265 \
                 --enable-libtheora \
-                --enable-libv4l2 \
                 --enable-libdav1d \
                 --enable-openssl \
                 --enable-libwebp \
@@ -115,7 +113,6 @@ RUN         apk add --virtual .run-deps \
                 soxr \
                 libssh \
                 libtheora \
-                v4l-utils \
                 vidstab \
                 libvorbis \
                 libvpx \
