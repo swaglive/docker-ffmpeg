@@ -120,7 +120,7 @@ RUN         apk add --virtual .run-deps \
                 libvorbis \
                 libvpx \
                 libwebp \
-                x264 \
+                x264-libs \
                 x265 \
                 xvidcore \
                 zeromq \
@@ -130,4 +130,5 @@ RUN         apk add --virtual .run-deps \
                 vulkan-loader
 
 COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
+COPY        --from=ffmpeg /usr/local/lib /usr/local/lib
 COPY        --from=ffmpeg /usr/local/include /usr/local/include
