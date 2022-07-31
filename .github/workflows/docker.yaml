@@ -12,6 +12,7 @@ jobs:
       packages: write
 
     strategy:
+      fail-fast: false
       matrix:
         version:
         - "5.1.0"
