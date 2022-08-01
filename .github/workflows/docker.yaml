@@ -33,6 +33,16 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Configure
+      id: config
+      run: |-
+        NPROC=$(nproc)
+
+        echo "NPROC=$NPROC" >> $GITHUB_ENV
+        echo "::set-output name=NPROC::$NPROC"
+        echo "::set-output name=repo-owner::${{ github.repository_owner }}"
+        echo "::set-output name=repo-name::${GITHUB_REPOSITORY#*/docker-}"
+
     - name: Setup - buildx
       uses: docker/setup-buildx-action@v2
 
@@ -56,21 +66,13 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          swaglive/ffmpeg
-          ghcr.io/${{ github.repository_owner }}/ffmpeg
+          ${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
+          ghcr.io/${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
         flavor: |
           latest=${{ !!matrix.latest }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }},enable=${{ !matrix.flavor }}
           type=semver,pattern={{major}}.{{minor}},suffix=-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.flavor }}
-
-    - name: Setup
-      id: config
-      run: |
-        NPROC=$(nproc)
-
-        echo "NPROC=$NPROC" >> $GITHUB_ENV
-        echo "::set-output name=NPROC::$NPROC"
 
     - name: Build
       uses: docker/build-push-action@v3
