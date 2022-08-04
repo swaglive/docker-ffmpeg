@@ -39,6 +39,7 @@ RUN         apk add --virtual .build-deps \
                 libva-dev \
                 libvdpau-dev \
                 vulkan-loader-dev \
+                librsvg-dev \
                 && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
@@ -88,7 +89,8 @@ RUN         ./configure \
                 --enable-vaapi \
                 --enable-vdpau \
                 --enable-vulkan \
-                --enable-libdrm && \
+                --enable-libdrm \
+                --enable-librsvg && \
             make && \
             make install
 
@@ -124,7 +126,8 @@ RUN         apk add --virtual .run-deps \
                 libxcb \
                 libva \
                 libvdpau \
-                vulkan-loader
+                vulkan-loader \
+                librsvg
 
 COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
 COPY        --from=ffmpeg /usr/local/lib /usr/local/lib
