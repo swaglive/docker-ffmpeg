@@ -127,7 +127,8 @@ RUN         apk add --virtual .run-deps \
                 libva \
                 libvdpau \
                 vulkan-loader \
-                librsvg
+                librsvg \
+                font-noto
 
 COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
 COPY        --from=ffmpeg /usr/local/lib /usr/local/lib
