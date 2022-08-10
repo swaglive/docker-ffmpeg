@@ -21,13 +21,19 @@ jobs:
         flavor:
         - ""
         - "slim"
+        - "cuda-11.7"
         include:
+        - flavor: "cuda-11.7"
+          context: "nvidia"
         - version: "5.1.0"
           tag: "5.1"
         - version: "5.1.0"
           tag: "5.1"
           flavor: ""
           latest: true
+        exclude:
+        - version: "4.4.1"
+          flavor: "cuda-11.7"
 
     steps:
     - name: Checkout
@@ -78,7 +84,7 @@ jobs:
       uses: docker/build-push-action@v3
       id: build
       with:
-        context: ${{ matrix.flavor || '.' }}
+        context: ${{ matrix.context || matrix.flavor || '.' }}
         build-args: |
           version=${{ matrix.tag || matrix.version }}
           MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
