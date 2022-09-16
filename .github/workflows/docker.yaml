@@ -31,6 +31,10 @@ jobs:
           tag: "5.1"
           flavor: ""
           latest: true
+        - version: "5.0.0"
+          tag: "5.0"
+          flavor: "cuda-10.2"
+          context: "nvidia9.1"
         exclude:
         - version: "4.4.1"
           flavor: "cuda-11.7"
