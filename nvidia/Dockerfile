@@ -3,7 +3,38 @@ ARG         base=ubuntu22.04
 
 ###
 
-FROM        nvidia/cuda:${cuda}-devel-${base} as ffnvcodec
+FROM        alpine as cuda-keyring
+
+ARG         base=ubuntu22.04
+
+WORKDIR     /var/cache/apt/archives
+RUN         wget -O cuda-keyring.deb https://developer.download.nvidia.com/compute/cuda/repos/${base//.}/x86_64/cuda-keyring_1.0-1_all.deb
+
+###
+
+FROM        nvidia/cuda:${cuda}-devel-${base} as cuda-devel
+
+COPY        --from=cuda-keyring /var/cache/apt/archives/cuda-keyring.deb /var/cache/apt/archives/cuda-keyring.deb
+
+RUN         apt-key del 7fa2af80 && \
+            dpkg -i /var/cache/apt/archives/cuda-keyring.deb && \
+            rm /var/cache/apt/archives/cuda-keyring.deb && \
+            apt-get update
+
+###
+
+FROM        nvidia/cuda:${cuda}-runtime-${base} as cuda-runtime
+
+COPY        --from=cuda-keyring /var/cache/apt/archives/cuda-keyring.deb /var/cache/apt/archives/cuda-keyring.deb
+
+RUN         apt-key del 7fa2af80 && \
+            dpkg -i /var/cache/apt/archives/cuda-keyring.deb && \
+            rm /var/cache/apt/archives/cuda-keyring.deb && \
+            apt-get update
+
+###
+
+FROM        cuda-devel as ffnvcodec
 
 ARG         nv_codecs=11.1.5.1
 ARG         MAKEFLAGS="-j8"
@@ -21,7 +52,7 @@ RUN         apt-get update && \
 
 ###
 
-FROM        nvidia/cuda:${cuda}-devel-${base} as ffmpeg
+FROM        cuda-devel as ffmpeg
 
 ARG         version=5.1
 ARG         MAKEFLAGS="-j8"
@@ -146,7 +177,7 @@ RUN 		    ./configure \
 
 ###
 
-FROM        nvidia/cuda:${cuda}-runtime-${base}
+FROM        cuda-runtime
 
 ENV         LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ENV         NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
