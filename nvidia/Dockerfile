@@ -5,7 +5,7 @@ ARG         base=ubuntu22.04
 
 FROM        nvidia/cuda:${cuda}-devel-${base} as ffnvcodec
 
-ARG         nv_codecs=11.1.5.1
+ARG         nv_codecs=10.0.26.2
 ARG         MAKEFLAGS="-j8"
 
 ENV         DEBIAN_FRONTEND=noninteractive
