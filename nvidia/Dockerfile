@@ -60,7 +60,6 @@ RUN         apt-get -y update && \
               libxcb-xfixes0-dev \
               libva-dev \
               libvdpau-dev \
-              libvulkan-dev \
               librsvg2-dev \
               libfreetype6-dev \
               libfontconfig1-dev \
@@ -132,7 +131,6 @@ RUN 		    ./configure \
               --enable-libsoxr \
               --enable-vaapi \
               --enable-vdpau \
-              --enable-vulkan \
               --enable-libdrm \
               --enable-librsvg && \
             make && \
@@ -176,7 +174,6 @@ RUN         apt-get -y update && \
               libva-drm2 \
               libva-x11-2 \
               libvdpau1 \
-              libvulkan1 \
               librsvg2-2 \
               ocl-icd-libopencl1 \
               opencl-headers
