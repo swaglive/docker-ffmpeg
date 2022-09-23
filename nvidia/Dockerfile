@@ -1,5 +1,5 @@
-ARG         cuda=11.7.0
-ARG         base=ubuntu22.04
+ARG         cuda=11.0.3
+ARG         base=ubuntu20.04
 
 ###
 

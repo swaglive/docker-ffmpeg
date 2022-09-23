@@ -21,9 +21,9 @@ jobs:
         flavor:
         - ""
         - "slim"
-        - "cuda-11.7"
+        - "cuda-11.0"
         include:
-        - flavor: "cuda-11.7"
+        - flavor: "cuda-11.0"
           context: "nvidia"
         - version: "5.1.0"
           tag: "5.1"
@@ -37,7 +37,7 @@ jobs:
           context: "nvidia9.1"
         exclude:
         - version: "4.4.1"
-          flavor: "cuda-11.7"
+          flavor: "cuda-11.0"
 
     steps:
     - name: Checkout
