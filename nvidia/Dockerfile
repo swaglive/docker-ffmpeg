@@ -39,14 +39,11 @@ RUN         apt-get -y update && \
               libpng-dev \
               libass-dev \
               libdrm-dev \
-              libdav1d-dev \
-              libsvtav1enc-dev \
               libfdk-aac-dev \
               libaom-dev \
               libmp3lame-dev \
               libopus-dev \
               libpulse-dev \
-              libsrt-openssl-dev \
               libsoxr-dev \
               libssh-dev \
               libtheora-dev \
@@ -57,7 +54,7 @@ RUN         apt-get -y update && \
               libx264-dev \
               libx265-dev \
               libxvidcore-dev \
-              libzmq5-dev \
+              libzmq3-dev \
               libxcb1-dev \
               libxcb-shm0-dev \
               libxcb-xfixes0-dev \
@@ -122,15 +119,12 @@ RUN 		    ./configure \
               --enable-libx264 \
               --enable-libx265 \
               --enable-libtheora \
-              --enable-libdav1d \
-              --enable-libsvtav1 \
               --enable-openssl \
               --enable-libwebp \
               --enable-lto \
               --enable-postproc \
               --enable-pic \
               --enable-libxcb \
-              --enable-libsrt \
               --enable-libssh \
               --enable-libvidstab \
               --enable-libaom \
@@ -156,27 +150,22 @@ ENTRYPOINT  ["ffmpeg"]
 
 RUN         apt-get -y update && \
             apt-get install -y \
-              libssl3 \
-#               libpng-dev \
+              libssl1.1 \
               libass9 \
               libdrm2 \
-              libdav1d5 \
-              libsvtav1enc0 \
-              libfdk-aac2 \
-              libaom3 \
+              libfdk-aac1 \
+              libaom0 \
               libmp3lame0 \
               libopus0 \
               libpulse0 \
-              libsrt1.4-openssl \
               libsoxr0 \
               libssh-4 \
               libtheora0 \
               libvidstab1.1 \
-#               libvorbis-dev \
-              libvpx7 \
+              libvpx6 \
               libwebpmux3 \
-              libx264-163 \
-              libx265-199 \
+              libx264-155 \
+              libx265-179 \
               libxvidcore4 \
               libzmq5 \
               libxcb1 \
