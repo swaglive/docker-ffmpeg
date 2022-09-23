@@ -1,6 +1,6 @@
 FROM        nvidia/cuda:10.2-devel as ffnvcodec
 
-ARG         NV_CODECS_HEADERS_VERSION=n9.1.23.2
+ARG         NV_CODECS_HEADERS_VERSION=n9.1.23.3
 ARG         MAKEFLAGS=-j$(nproc)
 ENV         DEBIAN_FRONTEND=noninteractive
 
