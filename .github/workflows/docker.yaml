@@ -15,9 +15,9 @@ jobs:
       fail-fast: false
       matrix:
         version:
-        - "5.1.1"
-        - "5.0.1"
-        - "4.4.1"
+        - "5.1.2"
+        - "5.0.2"
+        - "4.4.2"
         flavor:
         - ""
         - "slim"
@@ -25,18 +25,18 @@ jobs:
         include:
         - flavor: "cuda-11.0"
           context: "nvidia"
-        - version: "5.1.0"
+        - version: "5.1.2"
           tag: "5.1"
-        - version: "5.1.0"
+        - version: "5.1.2"
           tag: "5.1"
           flavor: ""
           latest: true
-        - version: "5.0.0"
+        - version: "5.0.2"
           tag: "5.0"
           flavor: "cuda-10.2"
           context: "nvidia9.1"
         exclude:
-        - version: "4.4.1"
+        - version: "4.4.2"
           flavor: "cuda-11.0"
 
     steps:
