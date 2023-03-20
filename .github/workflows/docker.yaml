@@ -37,6 +37,10 @@ jobs:
           context: nvidia-ubuntu22.04
           cuda: 11.8.0
           nv_codecs: 12.0.16.0
+        - version: 5.1.2
+          ffmpeg_flags: ""
+        - version: 5.0.2
+          ffmpeg_flags: ""
 
     steps:
     - name: Checkout
@@ -91,6 +95,7 @@ jobs:
           version=${{ matrix.gitTag || matrix.version }}
           cuda=${{ matrix.cuda }}
           nv_codecs=${{ matrix.nv_codecs }}
+          ffmpeg_flags=${{ matrix.ffmpeg_flags }}
           MAKEFLAGS=-j${{ env.NPROC }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}
