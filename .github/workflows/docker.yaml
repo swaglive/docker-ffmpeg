@@ -53,10 +53,11 @@ jobs:
       run: |-
         NPROC=$(nproc)
 
-        echo "NPROC=$NPROC" >> $GITHUB_ENV
-        echo "::set-output name=NPROC::$NPROC"
-        echo "::set-output name=repo-owner::${{ github.repository_owner }}"
-        echo "::set-output name=repo-name::${GITHUB_REPOSITORY#*/docker-}"
+        echo "NPROC=$((NPROC*2+1))" >> $GITHUB_ENV
+        echo "NPROC=$((NPROC*2+1))" >> $GITHUB_OUTPUT
+
+        echo "repo-owner=${{ github.repository_owner }}" >> $GITHUB_OUTPUT
+        echo "repo-name=${GITHUB_REPOSITORY#*/docker-}" >> $GITHUB_OUTPUT
 
     - name: Setup - buildx
       uses: docker/setup-buildx-action@v2
