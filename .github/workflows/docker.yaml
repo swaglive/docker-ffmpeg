@@ -21,19 +21,19 @@ jobs:
         flavor:
         - base
         - slim
-        - nvidia-470
-        - nvidia-520
+        - nvidia-470.57
+        - nvidia-520.56
         include:
         - version: "6.0.0"
           gitTag: "6.0"
         - version: "6.0.0"
           flavor: base
           latest: true
-        - flavor: nvidia-520
+        - flavor: nvidia-520.56
           context: nvidia-ubuntu22.04
           cuda: "12.0.1"
           nv_codecs: "12.0.16.0"
-        - flavor: nvidia-470
+        - flavor: nvidia-470.57
           context: nvidia-ubuntu20.04
           cuda: "11.4.3"
           nv_codecs: "11.1.5.2"
