@@ -95,7 +95,7 @@ jobs:
         context: ${{ matrix.context || matrix.flavor || '.' }}
         build-args: |
           version=${{ matrix.tag || matrix.version }}
-          MAKEFLAGS=-j${{ steps.config.outputs.NPROC }}
+          MAKEFLAGS=-j${{ env.NPROC }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
