@@ -19,22 +19,22 @@ jobs:
         - "5.1.2"
         - "5.0.2"
         flavor:
-        - ""
-        - "slim"
-        - "cuda-11.0"
+        - base
+        - slim
+        - cuda-12.0
+        - cuda-11.0
+        - cuda-10.0
         include:
         - version: "6.0.0"
-          tag: "6.0"
-          flavor: ""
-          latest: true
-        - flavor: "cuda-11.0"
-          context: "nvidia-ubuntu20-04"
-        - version: "5.1.2"
-          tag: "5.1"
-        - version: "5.1.2"
-          tag: "5.1"
-          flavor: ""
-          latest: true
+          gitTag: "6.0"
+        - flavor: cuda-12.1
+          context: nvidia-ubuntu20.04
+          cuda: 12.1.0
+          nv_codecs: 12.0.16.0
+        - flavor: cuda-11.0
+          context: nvidia-ubuntu20.04
+          cuda: 11.0.3
+          nv_codecs: 10.0.26.2
 
     steps:
     - name: Checkout
@@ -84,9 +84,11 @@ jobs:
       uses: docker/build-push-action@v4
       id: build
       with:
-        context: ${{ matrix.context || matrix.flavor || '.' }}
+        context: ${{ matrix.context || matrix.flavor }}
         build-args: |
-          version=${{ matrix.tag || matrix.version }}
+          version=${{ matrix.gitTag || matrix.version }}
+          cuda=${{ matrix.cuda }}
+          nv_codecs=${{ matrix.nv_codecs }}
           MAKEFLAGS=-j${{ env.NPROC }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}
