@@ -29,7 +29,7 @@ jobs:
           flavor: ""
           latest: true
         - flavor: "cuda-11.0"
-          context: "nvidia"
+          context: "nvidia-ubuntu20-04"
         - version: "5.1.2"
           tag: "5.1"
         - version: "5.1.2"
