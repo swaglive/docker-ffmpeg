@@ -1,11 +1,11 @@
-ARG         cuda=12.1.0
+ARG         cuda=11.0.3
 ARG         base=ubuntu20.04
 
 ###
 
 FROM        nvidia/cuda:${cuda}-devel-${base} as ffnvcodec
 
-ARG         nv_codecs=12.0.16.0
+ARG         nv_codecs=10.0.26.2
 ARG         MAKEFLAGS="-j8"
 
 ENV         DEBIAN_FRONTEND=noninteractive
@@ -23,7 +23,7 @@ RUN         apt-get update && \
 
 FROM        nvidia/cuda:${cuda}-devel-${base} as ffmpeg
 
-ARG         version=6.0
+ARG         version=5.1
 ARG         MAKEFLAGS="-j8"
 
 ENV         DEBIAN_FRONTEND=noninteractive
