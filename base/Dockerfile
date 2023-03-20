@@ -4,7 +4,7 @@ ARG         base=alpine:3.17
 
 FROM        ${base} as ffmpeg
 
-ARG         version=5.1
+ARG         version=
 ARG         MAKEFLAGS="-j8"
 
 RUN         apk add --virtual .build-deps \
