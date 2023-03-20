@@ -57,6 +57,10 @@ jobs:
         echo "repo-owner=${{ github.repository_owner }}" >> $GITHUB_OUTPUT
         echo "repo-name=${GITHUB_REPOSITORY#*/docker-}" >> $GITHUB_OUTPUT
 
+        if [ "${{ matrix.flavor }}" != "base" ]; then
+          echo "suffix=-${{ matrix.flavor }}" >> $GITHUB_OUTPUT
+        fi
+
     - name: Setup - buildx
       uses: docker/setup-buildx-action@v2
 
@@ -83,8 +87,7 @@ jobs:
         flavor: |
           latest=${{ !!matrix.latest }}
         tags: |
-          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }},enable=${{ !matrix.flavor }}
-          type=semver,pattern={{major}}.{{minor}},suffix=-${{ matrix.flavor }},value=${{ matrix.version }},enable=${{ !!matrix.flavor }}
+          type=semver,pattern={{major}}.{{minor}},suffix=${{ steps.config.outputs.suffix }},value=${{ matrix.version }}
 
     - name: Build
       uses: docker/build-push-action@v4
