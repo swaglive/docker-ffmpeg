@@ -38,9 +38,9 @@ jobs:
           cuda: 11.8.0
           nv_codecs: 12.0.16.0
         - version: 5.1.2
-          ffmpeg_flags: ""
+          ffmpeg_flags: "--disable-vulkan"
         - version: 5.0.2
-          ffmpeg_flags: ""
+          ffmpeg_flags: "--disable-vulkan"
 
     steps:
     - name: Checkout
