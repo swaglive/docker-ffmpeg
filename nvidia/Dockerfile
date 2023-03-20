@@ -28,6 +28,14 @@ ARG         MAKEFLAGS="-j8"
 
 ENV         DEBIAN_FRONTEND=noninteractive
 
+            # ffmpeg requires vulkan>=1.2.189
+            # REF: https://github.com/FFmpeg/FFmpeg/blob/57afccc0ef8d3024ffb2d1b2d25c9670b9501248/configure#L7015
+RUN         apt-get -y update && \
+            apt-get install -y \
+              wget && \
+            wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
+            wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
+
 RUN         apt-get -y update && \
             apt-get install -y \
               wget \
@@ -60,9 +68,13 @@ RUN         apt-get -y update && \
               libxcb-xfixes0-dev \
               libva-dev \
               libvdpau-dev \
+              vulkan-headers \
+              vulkan-profiles \
+              vulkan-tools \
               librsvg2-dev \
               libfreetype6-dev \
               libfontconfig1-dev \
+              libnuma-dev \
               ocl-icd-opencl-dev \
               opencl-headers && \
             wget -qO - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
@@ -131,6 +143,7 @@ RUN 		    ./configure \
               --enable-libsoxr \
               --enable-vaapi \
               --enable-vdpau \
+              --enable-vulkan \
               --enable-libdrm \
               --enable-librsvg && \
             make && \
@@ -174,7 +187,9 @@ RUN         apt-get -y update && \
               libva-drm2 \
               libva-x11-2 \
               libvdpau1 \
+              libvulkan1 \
               librsvg2-2 \
+              libnuma1 \
               ocl-icd-libopencl1 \
               opencl-headers
 
