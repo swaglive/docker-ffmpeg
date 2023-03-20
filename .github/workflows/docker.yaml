@@ -31,15 +31,15 @@ jobs:
           latest: true
         - flavor: nvidia-520
           context: nvidia-ubuntu22.04
-          cuda: 12.0
-          nv_codecs: 12.0.16.0
+          cuda: "12.0"
+          nv_codecs: "12.0.16.0"
         - flavor: nvidia-470
           context: nvidia-ubuntu20.04
-          cuda: 11.4.3
-          nv_codecs: 11.1.5.2
-        - version: 5.1.2
+          cuda: "11.4.3"
+          nv_codecs: "11.1.5.2"
+        - version: "5.1.2"
           ffmpeg_flags: "--disable-vulkan"
-        - version: 5.0.2
+        - version: "5.0.2"
           ffmpeg_flags: "--disable-vulkan"
 
     steps:
