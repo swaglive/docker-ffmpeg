@@ -161,11 +161,11 @@ ENTRYPOINT  ["ffmpeg"]
 
 RUN         apt-get -y update && \
             apt-get install -y \
-              libssl1.1 \
+              libssl3 \
               libass9 \
               libdrm2 \
-              libfdk-aac1 \
-              libaom0 \
+              libfdk-aac2 \
+              libaom3 \
               libmp3lame0 \
               libopus0 \
               libpulse0 \
@@ -173,10 +173,10 @@ RUN         apt-get -y update && \
               libssh-4 \
               libtheora0 \
               libvidstab1.1 \
-              libvpx6 \
+              libvpx7 \
               libwebpmux3 \
-              libx264-155 \
-              libx265-179 \
+              libx264-163 \
+              libx265-199 \
               libxvidcore4 \
               libzmq5 \
               libxcb1 \
