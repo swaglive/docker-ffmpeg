@@ -14,7 +14,7 @@ RUN         apt-get update && \
             apt-get install -y \
               wget \
               make && \
-            wget -q0 - https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
+            wget -qO - https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
             cd nv-codec-headers-n${nv_codecs} && \
             make && \
             make install
@@ -65,7 +65,7 @@ RUN         apt-get -y update && \
               libfontconfig1-dev \
               ocl-icd-opencl-dev \
               opencl-headers && \
-            wget -q0 - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
+            wget -qO - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR 	  FFmpeg-n${version}
 
