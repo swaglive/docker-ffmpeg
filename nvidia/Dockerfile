@@ -12,9 +12,9 @@ ENV         DEBIAN_FRONTEND=noninteractive
 
 RUN         apt-get update && \
             apt-get install -y \
-              curl \
+              wget \
               make && \
-            curl -sfL https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
+            wget -q0 - https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
             cd nv-codec-headers-n${nv_codecs} && \
             make && \
             make install
@@ -30,7 +30,7 @@ ENV         DEBIAN_FRONTEND=noninteractive
 
 RUN         apt-get -y update && \
             apt-get install -y \
-              curl \
+              wget \
               build-essential \
               nasm \
               yasm \
@@ -65,7 +65,7 @@ RUN         apt-get -y update && \
               libfontconfig1-dev \
               ocl-icd-opencl-dev \
               opencl-headers && \
-            curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
+            wget -q0 - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR 	  FFmpeg-n${version}
 
