@@ -25,7 +25,7 @@ FROM        nvidia/cuda:${cuda}-devel-${base} as ffmpeg
 
 ARG         version=
 ARG         MAKEFLAGS="-j8"
-ARG         ffmpeg_flags="--enable-vulkan --enable-libglslang"
+ARG         ffmpeg_flags=
 
 ENV         DEBIAN_FRONTEND=noninteractive
 
@@ -147,7 +147,10 @@ RUN 		    ./configure \
               --enable-vaapi \
               --enable-vdpau \
               --enable-libdrm \
-              --enable-librsvg ${ffmpeg_flags} && \
+              --enable-librsvg \
+              --enable-vulkan \
+              --enable-libglslang \
+              ${ffmpeg_flags} && \
             make && \
             make install
 
