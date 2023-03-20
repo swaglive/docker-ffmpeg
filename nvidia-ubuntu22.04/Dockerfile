@@ -25,7 +25,7 @@ FROM        nvidia/cuda:${cuda}-devel-${base} as ffmpeg
 
 ARG         version=
 ARG         MAKEFLAGS="-j8"
-ARG         ffmpeg_flags="--enable-vulkan"
+ARG         ffmpeg_flags="--enable-vulkan --enable-libglslang"
 
 ENV         DEBIAN_FRONTEND=noninteractive
 
@@ -72,12 +72,14 @@ RUN         apt-get -y update && \
               vulkan-headers \
               vulkan-profiles \
               vulkan-tools \
+              vulkan-sdk \
               librsvg2-dev \
               libfreetype6-dev \
               libfontconfig1-dev \
               libnuma-dev \
               ocl-icd-opencl-dev \
-              opencl-headers && \
+              opencl-headers \
+              glslang-dev && \
             wget -qO - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR 	  FFmpeg-n${version}
@@ -191,7 +193,9 @@ RUN         apt-get -y update && \
               librsvg2-2 \
               libnuma1 \
               ocl-icd-libopencl1 \
-              opencl-headers
+              opencl-headers \
+              vulkan-tools \
+              glslang-tools
 
 COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
 COPY        --from=ffmpeg /usr/local/include /usr/local/include
