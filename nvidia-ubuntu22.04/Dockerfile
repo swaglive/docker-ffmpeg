@@ -23,6 +23,7 @@ RUN         apt-get update && \
 
 FROM        nvidia/cuda:${cuda}-devel-${base} as ffmpeg
 
+ARG         repo=FFmpeg/FFmpeg
 ARG         version=
 ARG         MAKEFLAGS="-j8"
 ARG         ffmpeg_flags=
@@ -80,7 +81,7 @@ RUN         apt-get -y update && \
               ocl-icd-opencl-dev \
               opencl-headers \
               glslang-dev && \
-            wget -qO - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
+            wget -qO - https://github.com/${repo}/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR 	  FFmpeg-n${version}
 
