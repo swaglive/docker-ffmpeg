@@ -99,6 +99,7 @@ jobs:
           version=${{ matrix.gitTag || matrix.version }}
           cuda=${{ matrix.cuda }}
           nv_codecs=${{ matrix.nv_codecs }}
+          repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
           ffmpeg_flags=${{ matrix.ffmpeg_flags }}
           MAKEFLAGS=-j${{ env.NPROC }}
         push: true
