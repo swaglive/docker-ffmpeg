@@ -27,6 +27,7 @@ ARG         repo=FFmpeg/FFmpeg
 ARG         version=
 ARG         MAKEFLAGS="-j8"
 ARG         ffmpeg_flags=
+ARG         nvidia_driver_major_version=
 
 ENV         DEBIAN_FRONTEND=noninteractive
 
@@ -199,7 +200,8 @@ RUN         apt-get -y update && \
               ocl-icd-libopencl1 \
               opencl-headers \
               vulkan-tools \
-              glslang-tools
+              glslang-tools \
+              libnvidia-gl-${nvidia_driver_major_version}
 
 COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
 COPY        --from=ffmpeg /usr/local/include /usr/local/include
