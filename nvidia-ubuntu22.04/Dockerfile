@@ -205,7 +205,8 @@ COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
 COPY        --from=ffmpeg /usr/local/include /usr/local/include
 COPY        --from=ffmpeg /usr/local/lib /usr/local/lib
 
-#             # FIX: Device creation failed: -19.
-#             # REF: https://github.com/microsoft/LightGBM/issues/586
-RUN         mkdir -p /etc/OpenCL/vendors && \
-            echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+            # FIX: Device creation failed: -19.
+ADD         OpenCL/nvidia.icd /etc/OpenCL/vendors/
+ADD         vulkan/nvidia_icd.json /usr/share/vulkan/icd.d/
+ADD         glvnd/10_nvidia.json /usr/share/glvnd/egl_vendor.d/
+ADD         egl/15_nvidia_gbm.json /usr/share/egl/egl_external_platform.d/
