@@ -157,6 +157,26 @@ RUN 		    ./configure \
 
 ###
 
+FROM        nvidia/cuda:${cuda}-runtime-${base} as nvidia-drivers
+
+ARG         version_nvidia_driver=
+
+RUN         apt-get update && \
+            apt-get install -y \
+              wget \
+              kmod && \
+            wget -O nvidia.run https://us.download.nvidia.com/tesla/${version_nvidia_driver}/NVIDIA-Linux-$(uname -m)-${version_nvidia_driver}.run && \
+            sh "nvidia.run" \
+              --no-install-compat32-libs \
+              --no-drm \
+              --silent \
+              --accept-license \
+              --no-kernel-modules \
+              --utility-prefix /usr/local \
+              --opengl-prefix /usr/local
+
+###
+
 FROM        nvidia/cuda:${cuda}-runtime-${base}
 
 ENV         LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
@@ -199,11 +219,17 @@ RUN         apt-get -y update && \
               ocl-icd-libopencl1 \
               opencl-headers
 
-COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
-COPY        --from=ffmpeg /usr/local/include /usr/local/include
-COPY        --from=ffmpeg /usr/local/lib /usr/local/lib
+COPY        --from=nvidia-drivers /usr/local/bin/ /usr/local/bin/
+COPY        --from=nvidia-drivers /usr/local/include/ /usr/local/include/
+COPY        --from=nvidia-drivers /usr/local/lib/ /usr/local/lib/
 
-#             # FIX: Device creation failed: -19.
-#             # REF: https://github.com/microsoft/LightGBM/issues/586
-RUN         mkdir -p /etc/OpenCL/vendors && \
-            echo "libnvidia-opencl.so.1" > /etc/OpenCL/vendors/nvidia.icd
+COPY        --from=nvidia-drivers /etc/OpenCL/vendors/nvidia.icd /etc/OpenCL/vendors/nvidia.icd
+COPY        --from=nvidia-drivers /etc/vulkan/ /etc/vulkan/
+COPY        --from=nvidia-drivers /etc/vulkan/icd.d/ /usr/share/vulkan/icd.d/
+COPY        --from=nvidia-drivers /etc/vulkan/implicit_layer.d/ /usr/share/vulkan/implicit_layer.d/
+COPY        --from=nvidia-drivers /usr/share/glvnd/ /usr/share/glvnd/
+COPY        --from=nvidia-drivers /usr/share/egl/ /usr/share/egl/
+
+COPY        --from=ffmpeg /usr/local/bin/ /usr/local/bin/
+COPY        --from=ffmpeg /usr/local/include/ /usr/local/include/
+COPY        --from=ffmpeg /usr/local/lib/ /usr/local/lib/
