@@ -24,7 +24,7 @@ ARG         MAKEFLAGS="-j8"
 
 ENV         DEBIAN_FRONTEND=noninteractive
 
-RUN         wget -qO - https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
+RUN         wget -q -O - https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
             cd nv-codec-headers-n${nv_codecs} && \
             make && \
             make install
@@ -41,8 +41,8 @@ ENV         DEBIAN_FRONTEND=noninteractive
 
             # ffmpeg requires vulkan>=1.2.189
             # REF: https://github.com/FFmpeg/FFmpeg/blob/57afccc0ef8d3024ffb2d1b2d25c9670b9501248/configure#L7015
-RUN         wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
-            wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list && \
+RUN         wget -q -O - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
+            wget -q -O /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list && \
             apt-get -y update && \
             apt-get install -y \
               wget \
@@ -84,7 +84,7 @@ RUN         wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | a
               libnuma-dev \
               ocl-icd-opencl-dev \
               opencl-headers && \
-            wget -qO - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
+            wget -q -O - https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR 	  FFmpeg-n${version}
 
@@ -165,7 +165,7 @@ RUN         apt-get update && \
             apt-get install -y \
               wget \
               kmod && \
-            wget -O nvidia.run https://us.download.nvidia.com/tesla/${version_nvidia_driver}/NVIDIA-Linux-$(uname -m)-${version_nvidia_driver}.run && \
+            wget -q -O nvidia.run https://us.download.nvidia.com/tesla/${version_nvidia_driver}/NVIDIA-Linux-$(uname -m)-${version_nvidia_driver}.run && \
             sh "nvidia.run" \
               --no-install-compat32-libs \
               --no-drm \
