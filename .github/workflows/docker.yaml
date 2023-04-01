@@ -101,7 +101,7 @@ jobs:
           version=${{ matrix.gitTag || matrix.version }}
           cuda=${{ matrix.cuda }}
           nv_codecs=${{ matrix.nv_codecs }}
-          version_nvidia=${{ matrix.version_nvidia }}
+          version_nvidia_driver=${{ matrix.version_nvidia_driver }}
           repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
           ffmpeg_flags=${{ matrix.ffmpeg_flags }}
           MAKEFLAGS=-j${{ env.NPROC }}
