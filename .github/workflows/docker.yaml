@@ -21,7 +21,6 @@ jobs:
         flavor:
         - base
         - slim
-        - nvidia-470.57
         - nvidia-520.56
         include:
         - version: "6.0.0"
@@ -35,11 +34,6 @@ jobs:
           cuda: "12.0.1"
           nv_codecs: "12.0.16.0"
           version_nvidia_driver: "525.60.13"
-        - flavor: nvidia-470.57
-          context: nvidia-ubuntu20.04
-          cuda: "11.4.3"
-          nv_codecs: "11.1.5.2"
-          version_nvidia_driver: "470.82.01"
         - version: "5.1.2"
           ffmpeg_flags: "--disable-vulkan"
         - version: "5.0.2"
