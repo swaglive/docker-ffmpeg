@@ -3,42 +3,43 @@ ARG         base=ubuntu22.04
 
 ###
 
-FROM        nvidia/cuda:${cuda}-devel-${base} as ffnvcodec
+FROM        nvidia/cuda:${cuda}-devel-${base} as base
 
-ARG         nv_codecs=
-ARG         MAKEFLAGS="-j8"
+ARG         MAKEFLAGS=
 
+ENV         MAKEFLAGS=${MAKEFLAGS}
 ENV         DEBIAN_FRONTEND=noninteractive
 
-RUN         apt-get update && \
+RUN         echo ${MAKEFLAGS} && \
+            apt-get update && \
             apt-get install -y \
               wget \
-              make && \
-            wget -qO - https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
+              make
+
+###
+
+FROM        base as ffnvcodec
+
+ARG         nv_codecs=
+
+RUN         wget -qO - https://github.com/FFmpeg/nv-codec-headers/archive/n${nv_codecs}.tar.gz | tar xz && \
             cd nv-codec-headers-n${nv_codecs} && \
             make && \
             make install
 
 ###
 
-FROM        nvidia/cuda:${cuda}-devel-${base} as ffmpeg
+FROM        base as ffmpeg
 
 ARG         repo=FFmpeg/FFmpeg
 ARG         version=
-ARG         MAKEFLAGS="-j8"
 ARG         ffmpeg_flags=
-
-ENV         DEBIAN_FRONTEND=noninteractive
 
             # ffmpeg requires vulkan>=1.2.189
             # REF: https://github.com/FFmpeg/FFmpeg/blob/57afccc0ef8d3024ffb2d1b2d25c9670b9501248/configure#L7015
-RUN         apt-get -y update && \
-            apt-get install -y \
-              wget && \
-            wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
-            wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list
-
-RUN         apt-get -y update && \
+RUN         wget -qO - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
+            wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list && \
+            apt-get -y update && \
             apt-get install -y \
               wget \
               build-essential \
@@ -201,9 +202,9 @@ RUN         apt-get -y update && \
               vulkan-tools \
               glslang-tools
 
-COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
-COPY        --from=ffmpeg /usr/local/include /usr/local/include
-COPY        --from=ffmpeg /usr/local/lib /usr/local/lib
+COPY        --from=ffmpeg /usr/local/bin/. /usr/local/bin/.
+COPY        --from=ffmpeg /usr/local/include/. /usr/local/include/.
+COPY        --from=ffmpeg /usr/local/lib/. /usr/local/lib/.
 
             # FIX: Device creation failed: -19.
 ADD         OpenCL/nvidia.icd /etc/OpenCL/vendors/
