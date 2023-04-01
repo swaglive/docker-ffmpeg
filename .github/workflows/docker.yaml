@@ -22,6 +22,8 @@ jobs:
         - base
         - slim
         - nvidia-525.60
+        - nvidia-525.85
+        - nvidia-525.105
         include:
         - version: "6.0.0"
           gitTag: "6.0"
@@ -34,6 +36,16 @@ jobs:
           cuda: "12.0.1"
           nv_codecs: "12.0.16.0"
           version_nvidia_driver: "525.60.13"
+        - flavor: nvidia-525.85
+          context: nvidia-ubuntu22.04
+          cuda: "12.0.1"
+          nv_codecs: "12.0.16.0"
+          version_nvidia_driver: "525.85.12"
+        - flavor: nvidia-525.105
+          context: nvidia-ubuntu22.04
+          cuda: "12.0.1"
+          nv_codecs: "12.0.16.0"
+          version_nvidia_driver: "525.105.17"
         - version: "5.1.2"
           ffmpeg_flags: "--disable-vulkan"
         - version: "5.0.2"
