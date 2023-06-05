@@ -81,6 +81,7 @@ RUN         wget -q -O - http://packages.lunarg.com/lunarg-signing-key-pub.asc |
               libnuma-dev \
               ocl-icd-opencl-dev \
               opencl-headers \
+              libxml2-dev \
               glslang-dev && \
             wget -q -O - https://github.com/${repo}/archive/refs/tags/n${version}.tar.gz | tar xz
 
@@ -152,6 +153,7 @@ RUN 		    ./configure \
               --enable-librsvg \
               --enable-vulkan \
               --enable-libglslang \
+              --enable-libxml2 \
               ${ffmpeg_flags} && \
             make && \
             make install
@@ -217,6 +219,7 @@ RUN         apt-get -y update && \
               libvulkan1 \
               librsvg2-2 \
               libnuma1 \
+              libxml2 \
               ocl-icd-libopencl1 \
               opencl-headers \
               vulkan-tools \
