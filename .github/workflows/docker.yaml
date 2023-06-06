@@ -22,8 +22,6 @@ jobs:
         - base
         - slim
         - nvidia-525.60
-        - nvidia-525.85
-        - nvidia-525.105
         include:
         - version: "6.0.0"
           gitTag: "6.0"
