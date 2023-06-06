@@ -40,6 +40,7 @@ RUN         apk add --virtual .build-deps \
                 libvdpau-dev \
                 vulkan-loader-dev \
                 librsvg-dev \
+                libxml2-dev\
                 && \
             curl -sL https://github.com/FFmpeg/FFmpeg/archive/refs/tags/n${version}.tar.gz | tar xz
 
@@ -90,6 +91,7 @@ RUN         ./configure \
                 --enable-vdpau \
                 --enable-vulkan \
                 --enable-libdrm \
+                --enable-libxml2 \
                 --enable-librsvg && \
             make && \
             make install
@@ -128,6 +130,7 @@ RUN         apk add --virtual .run-deps \
                 libvdpau \
                 vulkan-loader \
                 librsvg \
+                libxml2 \
                 font-noto
 
 COPY        --from=ffmpeg /usr/local/bin /usr/local/bin
