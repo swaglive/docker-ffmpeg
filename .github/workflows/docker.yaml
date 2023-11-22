@@ -15,29 +15,27 @@ jobs:
       fail-fast: false
       matrix:
         version:
-        - "6.0.0"
-        - "5.1.3"
-        - "5.0.3"
-        flavor:
-        - base
-        - slim
-        - nvidia-525.60
+        - "6.1.0"
+        nvidia_video_codec_sdk:
+        - "12.1.14.0"
+        - "12.0.16.1"
+        cuda:
+        - "12.1.0"
+        - "12.0.1"
+        - "11.8.0"
         include:
-        - version: "6.0.0"
-          gitTag: "6.0"
-          repo: swaglive/FFmpeg
-        - version: "5.1.3"
-          repo: swaglive/FFmpeg
-        - version: "6.0.0"
-          flavor: base
-          latest: true
-        - flavor: nvidia-525.60
-          context: nvidia-ubuntu22.04
-          cuda: "12.0.1"
-          nv_codecs: "12.0.16.0"
-          version_nvidia_driver: "525.60.13"
-        - version: "5.0.3"
-          ffmpeg_flags: "--disable-vulkan"
+        - version: "6.1.0"
+          ref: "6.1"
+        - nvidia_video_codec_sdk: "12.1.14.0"
+          nvidia_video_codec_sdk_short: "12.1"
+        - nvidia_video_codec_sdk: "12.0.16.1"
+          nvidia_video_codec_sdk_short: "12.0"
+        - cuda: "12.1.0"
+          cuda_short: "12.1"
+        - cuda: "12.0.1"
+          cuda_short: "12.0"
+        - cuda: "11.8.0"
+          cuda_short: "11.8"
 
     steps:
     - name: Checkout
@@ -53,10 +51,6 @@ jobs:
 
         echo "repo-owner=${{ github.repository_owner }}" >> $GITHUB_OUTPUT
         echo "repo-name=${GITHUB_REPOSITORY#*/docker-}" >> $GITHUB_OUTPUT
-
-        if [ "${{ matrix.flavor }}" != "base" ]; then
-          echo "suffix=-${{ matrix.flavor }}" >> $GITHUB_OUTPUT
-        fi
 
     - name: Setup - buildx
       uses: docker/setup-buildx-action@v3
@@ -83,21 +77,21 @@ jobs:
           ghcr.io/${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
         flavor: |
           latest=${{ !!matrix.latest }}
+          suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}-cuda${{ matrix.cuda_short }}
         tags: |
-          type=semver,pattern={{major}}.{{minor}},suffix=${{ steps.config.outputs.suffix }},value=${{ matrix.version }}
+          type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
+          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
 
     - name: Build
       uses: docker/build-push-action@v5
       id: build
       with:
-        context: ${{ matrix.context || matrix.flavor }}
+        context: nvidia-ubuntu22.04
         build-args: |
-          version=${{ matrix.gitTag || matrix.version }}
+          version=${{ matrix.ref || matrix.version }}
           cuda=${{ matrix.cuda }}
-          nv_codecs=${{ matrix.nv_codecs }}
-          version_nvidia_driver=${{ matrix.version_nvidia_driver }}
+          nvidia_video_codec_sdk=${{ matrix.nvidia_video_codec_sdk }}
           repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
-          ffmpeg_flags=${{ matrix.ffmpeg_flags }}
           MAKEFLAGS=-j${{ env.NPROC }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}
