@@ -166,7 +166,11 @@ ENV         DEBIAN_FRONTEND=noninteractive
 
 ENTRYPOINT  ["ffmpeg"]
 
-RUN         apt-get -y update && \
+            # ffmpeg 6.1 requires vulkan>=1.3.255
+            # REF: https://github.com/FFmpeg/FFmpeg/blob/n6.1/configure#L7151
+RUN         wget -q -O - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
+            wget -q -P /etc/apt/sources.list.d/ http://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list && \
+            apt-get -y update && \
             apt-get install -y \
               libssl3 \
               libass9 \
