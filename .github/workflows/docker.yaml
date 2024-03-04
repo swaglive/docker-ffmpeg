@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-        - "6.1.0"
+        - "6.1.1"
         nvidia_video_codec_sdk:
         - "12.1.14.0"
         - "12.0.16.1"
