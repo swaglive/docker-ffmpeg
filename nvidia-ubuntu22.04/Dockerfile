@@ -35,11 +35,7 @@ ARG         repo=FFmpeg/FFmpeg
 ARG         version=
 ARG         ffmpeg_flags=
 
-            # ffmpeg requires vulkan>=1.2.189
-            # REF: https://github.com/FFmpeg/FFmpeg/blob/57afccc0ef8d3024ffb2d1b2d25c9670b9501248/configure#L7015
-RUN         wget -q -O - http://packages.lunarg.com/lunarg-signing-key-pub.asc | apt-key add - && \
-            wget -q -O /etc/apt/sources.list.d/lunarg-vulkan-focal.list http://packages.lunarg.com/vulkan/lunarg-vulkan-jammy.list && \
-            apt-get -y update && \
+RUN         apt-get -y update && \
             apt-get install -y \
               wget \
               build-essential \
