@@ -67,10 +67,8 @@ RUN         apt-get -y update && \
               libxcb-xfixes0-dev \
               libva-dev \
               libvdpau-dev \
-              vulkan-headers \
-              vulkan-profiles \
+              libvulkan-dev \
               vulkan-tools \
-              vulkan-sdk \
               spirv-tools \
               librsvg2-dev \
               libfreetype6-dev \
