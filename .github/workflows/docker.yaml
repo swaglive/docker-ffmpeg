@@ -19,20 +19,19 @@ jobs:
         nvidia_video_codec_sdk:
         - "12.1.14.0"
         - "12.0.16.1"
-        cuda:
-        - "12.1.1"
-        - "12.0.1"
         include:
         - version: "6.1.1"
           ref: "6.1"
+        # NOTE: `cuda` should represent the highest version the nvidia SDK supports
+        # REF: https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
         - nvidia_video_codec_sdk: "12.1.14.0"
           nvidia_video_codec_sdk_short: "12.1"
+          cuda: "12.1.1"
+          cuda_short: "12.1"
         - nvidia_video_codec_sdk: "12.0.16.1"
           nvidia_video_codec_sdk_short: "12.0"
-        - cuda: "12.1.1"
-          cuda_short: "12.1"
-        - cuda: "12.0.1"
-          cuda_short: "12.0"
+          cuda: "11.8.0"
+          cuda_short: "11.8"
 
     steps:
     - name: Checkout
