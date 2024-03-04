@@ -88,10 +88,6 @@ WORKDIR 	  FFmpeg-n${version}
 COPY        --from=ffnvcodec /usr/local/include/ffnvcodec /usr/local/include/ffnvcodec
 COPY        --from=ffnvcodec /usr/local/lib/pkgconfig /usr/local/lib/pkgconfig
 
-#             # HACK: https://trac.ffmpeg.org/ticket/8790
-# RUN         sed -i -e 's|nvccflags_default="-gencode arch=compute_30,code=sm_30 -O2"|nvccflags_default="-gencode arch=compute_75,code=sm_75 -O2"|g' configure && \
-#             sed -i -e 's|nvccflags_default="--cuda-gpu-arch=sm_30 -O2"|nvccflags_default="--cuda-gpu-arch=sm_75 -O2"|g' configure
-
 RUN 		    ./configure \
               --prefix=/usr/local \
               --extra-cflags=-I/usr/local/include \
