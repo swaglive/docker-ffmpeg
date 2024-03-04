@@ -201,8 +201,7 @@ RUN         apt-get -y update && \
               ocl-icd-libopencl1 \
               opencl-headers \
               vulkan-tools \
-              spirv-tools \
-              glslang-tools
+              spirv-tools
 
 COPY        --from=ffmpeg /usr/local/bin/ /usr/local/bin/
 COPY        --from=ffmpeg /usr/local/include/ /usr/local/include/
