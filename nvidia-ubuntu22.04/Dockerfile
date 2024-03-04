@@ -75,6 +75,7 @@ RUN         wget -q -O - http://packages.lunarg.com/lunarg-signing-key-pub.asc |
               vulkan-profiles \
               vulkan-tools \
               vulkan-sdk \
+              spirv-tools \
               librsvg2-dev \
               libfreetype6-dev \
               libfontconfig1-dev \
@@ -203,6 +204,7 @@ RUN         apt-get -y update && \
               ocl-icd-libopencl1 \
               opencl-headers \
               vulkan-tools \
+              spirv-tools \
               glslang-tools
 
 COPY        --from=ffmpeg /usr/local/bin/ /usr/local/bin/
