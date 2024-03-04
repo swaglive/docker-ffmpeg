@@ -10,8 +10,7 @@ ARG         MAKEFLAGS=
 ENV         MAKEFLAGS=${MAKEFLAGS}
 ENV         DEBIAN_FRONTEND=noninteractive
 
-RUN         echo ${MAKEFLAGS} && \
-            apt-get update && \
+RUN         apt-get update && \
             apt-get install -y \
               wget \
               make
