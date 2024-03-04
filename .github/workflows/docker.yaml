@@ -73,8 +73,8 @@ jobs:
       uses: docker/metadata-action@v5
       with:
         images: |
-          ${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
-          ghcr.io/${{ steps.config.outputs.repo-owner }}/${{ steps.config.outputs.repo-name }}
+          ${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
+          ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |
           latest=${{ !!matrix.latest }}
           suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}-cuda${{ matrix.cuda_short }}
