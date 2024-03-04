@@ -71,6 +71,7 @@ RUN         wget -q -O - http://packages.lunarg.com/lunarg-signing-key-pub.asc |
               libva-dev \
               libvdpau-dev \
               libvulkan-dev \
+              vulkan-headers \
               vulkan-tools \
               spirv-tools \
               librsvg2-dev \
