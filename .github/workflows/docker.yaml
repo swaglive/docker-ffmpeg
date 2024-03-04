@@ -85,11 +85,11 @@ jobs:
       with:
         context: nvidia-ubuntu22.04
         build-args: |
+          MAKEFLAGS=-j${{ env.NPROC }}
+          repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
           version=${{ matrix.ref || matrix.version }}
           cuda=${{ matrix.cuda }}
           nvidia_video_codec_sdk=${{ matrix.nvidia_video_codec_sdk }}
-          repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
-          MAKEFLAGS=-j${{ env.NPROC }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
