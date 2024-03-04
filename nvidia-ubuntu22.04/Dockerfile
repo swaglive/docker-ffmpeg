@@ -203,7 +203,8 @@ RUN         apt-get -y update && \
               ocl-icd-libopencl1 \
               opencl-headers \
               vulkan-tools \
-              spirv-tools
+              spirv-tools \
+              shaderc
 
 COPY        --from=ffmpeg /usr/local/bin/ /usr/local/bin/
 COPY        --from=ffmpeg /usr/local/include/ /usr/local/include/
