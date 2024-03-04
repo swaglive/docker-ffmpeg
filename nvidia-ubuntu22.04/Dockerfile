@@ -33,7 +33,6 @@ FROM        base as ffmpeg
 
 ARG         repo=FFmpeg/FFmpeg
 ARG         version=
-ARG         ffmpeg_flags=
 
             # ffmpeg 6.1 requires vulkan>=1.3.255
             # REF: https://github.com/FFmpeg/FFmpeg/blob/n6.1/configure#L7151
@@ -152,8 +151,7 @@ RUN 		    ./configure \
               --enable-librsvg \
               --enable-vulkan \
               --enable-libglslang \
-              --enable-libxml2 \
-              ${ffmpeg_flags} && \
+              --enable-libxml2 && \
             make && \
             make install
 
