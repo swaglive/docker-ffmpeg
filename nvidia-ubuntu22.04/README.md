@@ -1,0 +1,1 @@
+https://docs.nvidia.com/video-technologies/video-codec-sdk/12.1/ffmpeg-with-nvidia-gpu/index.html#compiling-for-linux
