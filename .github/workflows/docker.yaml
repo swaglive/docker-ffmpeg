@@ -27,11 +27,9 @@ jobs:
         - nvidia_video_codec_sdk: "12.1.14.0"
           nvidia_video_codec_sdk_short: "12.1"
           cuda: "12.1.1"
-          cuda_short: "12.1"
         - nvidia_video_codec_sdk: "12.0.16.1"
           nvidia_video_codec_sdk_short: "12.0"
           cuda: "11.8.0"
-          cuda_short: "11.8"
 
     steps:
     - name: Checkout
@@ -76,8 +74,7 @@ jobs:
           ${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |
-          latest=${{ !!matrix.latest }}
-          suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}-cuda${{ matrix.cuda_short }}
+          suffix=-nvidiasdk${{ matrix.nvidia_video_codec_sdk_short }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
