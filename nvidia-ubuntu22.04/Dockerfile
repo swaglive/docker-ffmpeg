@@ -80,7 +80,7 @@ RUN         wget -q -O - http://packages.lunarg.com/lunarg-signing-key-pub.asc |
               ocl-icd-opencl-dev \
               opencl-headers \
               libxml2-dev \
-              glslang-dev && \
+              shaderc && \
             wget -q -O - https://github.com/${repo}/archive/refs/tags/n${version}.tar.gz | tar xz
 
 WORKDIR 	  FFmpeg-n${version}
@@ -150,7 +150,7 @@ RUN 		    ./configure \
               --enable-libdrm \
               --enable-librsvg \
               --enable-vulkan \
-              --enable-libglslang \
+              --enable-libshaderc \
               --enable-libxml2 && \
             make && \
             make install
