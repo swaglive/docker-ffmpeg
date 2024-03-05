@@ -16,22 +16,22 @@ jobs:
       matrix:
         version:
         - "6.1.1"
-        nvidia_video_codec_sdk:
-        - "12.1.14.0"
-        - "12.0.16.1"
+        context:
+        - "nvidia-ubuntu22.04"
+        - "slim"
         include:
         - version: "6.1.1"
           ref: "6.1"
         # NOTE: `cuda` should represent the highest version the nvidia SDK supports
         # REF: https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
-        - nvidia_video_codec_sdk: "12.1.14.0"
+        - context: nvidia-ubuntu22.04
+          nvidia_video_codec_sdk: "12.1.14.0"
           nvidia_video_codec_sdk_short: "12.1"
           cuda: "12.1.1"
-          cuda_short: "12.1"
-        - nvidia_video_codec_sdk: "12.0.16.1"
+        - context: nvidia-ubuntu22.04
+          nvidia_video_codec_sdk: "12.0.16.1"
           nvidia_video_codec_sdk_short: "12.0"
           cuda: "11.8.0"
-          cuda_short: "11.8"
 
     steps:
     - name: Checkout
@@ -76,7 +76,7 @@ jobs:
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |
           latest=false
-          suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}-cuda${{ matrix.cuda_short }}
+          suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
@@ -85,7 +85,7 @@ jobs:
       uses: docker/build-push-action@v5
       id: build
       with:
-        context: nvidia-ubuntu22.04
+        context: ${{ matrix.context }}
         build-args: |
           version=${{ matrix.ref || matrix.version }}
           cuda=${{ matrix.cuda }}
