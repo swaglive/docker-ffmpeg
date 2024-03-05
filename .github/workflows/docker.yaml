@@ -43,7 +43,7 @@ jobs:
           suffix: -nvidia12.0
         - flavor: slim
           context: slim
-          suffix: -nvidia12.0
+          suffix: -slim
 
     steps:
     - name: Checkout
