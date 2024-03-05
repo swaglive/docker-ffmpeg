@@ -5,9 +5,9 @@ ARG         base=ubuntu22.04
 
 FROM        nvidia/cuda:${cuda}-devel-${base} as build-base
 
-ARG         MAKEFLAGS=
+ARG         makeflags=
 
-ENV         MAKEFLAGS=${MAKEFLAGS}
+ENV         MAKEFLAGS=${makeflags}
 ENV         DEBIAN_FRONTEND=noninteractive
 
 RUN         apt-get update && \

@@ -91,7 +91,7 @@ jobs:
           cuda=${{ matrix.cuda }}
           nvidia_video_codec_sdk=${{ matrix.nvidia_video_codec_sdk }}
           repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
-          MAKEFLAGS=-j${{ steps.config.outputs.nproc }}
+          makeflags=-j${{ steps.config.outputs.nproc }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
