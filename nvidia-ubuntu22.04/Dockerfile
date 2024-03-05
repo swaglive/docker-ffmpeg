@@ -1,9 +1,9 @@
 ARG         cuda=
-ARG         base=ubuntu22.04
+ARG         ubuntu_base=22.04
 
 ###
 
-FROM        nvidia/cuda:${cuda}-devel-${base} as build-base
+FROM        nvidia/cuda:${cuda}-devel-ubuntu${ubuntu_base} as build-base
 
 ARG         makeflags=
 
