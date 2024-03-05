@@ -3,7 +3,7 @@ ARG         base=ubuntu22.04
 
 ###
 
-FROM        nvidia/cuda:${cuda}-devel-${base} as base
+FROM        nvidia/cuda:${cuda}-devel-${base} as build-base
 
 ARG         MAKEFLAGS=
 
@@ -17,7 +17,7 @@ RUN         apt-get update && \
 
 ###
 
-FROM        base as ffnvcodec
+FROM        build-base as ffnvcodec
 
 ARG         nvidia_video_codec_sdk=
 
@@ -28,7 +28,7 @@ RUN         wget -q -O - https://github.com/FFmpeg/nv-codec-headers/archive/n${n
 
 ###
 
-FROM        base as ffmpeg
+FROM        build-base as ffmpeg
 
 ARG         repo=FFmpeg/FFmpeg
 ARG         version=
