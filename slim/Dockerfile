@@ -1,4 +1,4 @@
-ARG         base=alpine:3.17
+ARG         base=alpine:3.19
 
 ###
 
