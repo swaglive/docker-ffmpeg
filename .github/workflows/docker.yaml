@@ -75,7 +75,7 @@ jobs:
           ${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |
-          latest=${{ !!matrix.latest }}
+          latest=false
           suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}-cuda${{ matrix.cuda_short }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
