@@ -13,6 +13,10 @@ jobs:
       contents: read
       packages: write
 
+    concurrency:
+      group: ${{ github.workflow_ref }}-build-${{ matrix.version }}-${{ matrix.context }}
+      cancel-in-progress: false
+
     strategy:
       fail-fast: false
       matrix:
