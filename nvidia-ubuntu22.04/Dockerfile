@@ -153,7 +153,7 @@ RUN 		    ./configure \
 
 ###
 
-FROM        nvidia/cuda:${cuda}-runtime-${base}
+FROM        nvidia/cuda:${cuda}-runtime-ubuntu${ubuntu_base}
 
 ENV         LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 ENV         NVIDIA_DRIVER_CAPABILITIES=compute,video,utility
