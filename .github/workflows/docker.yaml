@@ -22,22 +22,28 @@ jobs:
       matrix:
         version:
         - "6.1.1"
-        context:
-        - "nvidia-ubuntu22.04"
-        - "slim"
+        flavor:
+        - nvidia12.1
+        - nvidia12.0
+        - slim
         include:
         - version: "6.1.1"
           ref: "6.1"
         # NOTE: `cuda` should represent the highest version the nvidia SDK supports
         # REF: https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html
-        - context: nvidia-ubuntu22.04
+        - flavor: nvidia12.1
+          context: nvidia-ubuntu22.04
           nvidia_video_codec_sdk: "12.1.14.0"
-          nvidia_video_codec_sdk_short: "12.1"
           cuda: "12.1.1"
-        - context: nvidia-ubuntu22.04
+          suffix: -nvidia12.1
+        - flavor: nvidia12.0
+          context: nvidia-ubuntu22.04
           nvidia_video_codec_sdk: "12.0.16.1"
-          nvidia_video_codec_sdk_short: "12.0"
           cuda: "11.8.0"
+          suffix: -nvidia12.0
+        - flavor: slim
+          context: slim
+          suffix: -nvidia12.0
 
     steps:
     - name: Checkout
@@ -82,7 +88,7 @@ jobs:
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |
           latest=false
-          suffix=-nvidiasdk${{ matrix.nvidia_video_codec_sdk_short }}
+          suffix=${{ matrix.suffix }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
