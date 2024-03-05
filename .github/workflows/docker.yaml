@@ -27,9 +27,11 @@ jobs:
         - nvidia_video_codec_sdk: "12.1.14.0"
           nvidia_video_codec_sdk_short: "12.1"
           cuda: "12.1.1"
+          cuda_short: "12.1"
         - nvidia_video_codec_sdk: "12.0.16.1"
           nvidia_video_codec_sdk_short: "12.0"
           cuda: "11.8.0"
+          cuda_short: "11.8"
 
     steps:
     - name: Checkout
@@ -44,8 +46,7 @@ jobs:
         script: |
           const os = require('os')
 
-          core.exportVariable('NPROC', os.cpus().length * 2)
-          core.setOutput('NPROC', os.cpus().length * 2)
+          core.setOutput('nproc', os.cpus().length * 2)
 
           core.setOutput('image-owner', process.env.GITHUB_REPOSITORY_OWNER)
           core.setOutput('image-name', process.env.GITHUB_REPOSITORY_NAME.replace(/^docker-/, ''))
@@ -74,7 +75,8 @@ jobs:
           ${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |
-          suffix=-nvidiasdk${{ matrix.nvidia_video_codec_sdk_short }}
+          latest=${{ !!matrix.latest }}
+          suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}-cuda${{ matrix.cuda_short }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
@@ -85,11 +87,11 @@ jobs:
       with:
         context: nvidia-ubuntu22.04
         build-args: |
-          MAKEFLAGS=-j${{ env.NPROC }}
-          repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
           version=${{ matrix.ref || matrix.version }}
           cuda=${{ matrix.cuda }}
           nvidia_video_codec_sdk=${{ matrix.nvidia_video_codec_sdk }}
+          repo=${{ matrix.repo || 'FFmpeg/FFmpeg' }}
+          MAKEFLAGS=-j${{ steps.config.outputs.nproc }}
         push: true
         labels: ${{ steps.meta.outputs.labels }}
         tags: ${{ steps.meta.outputs.tags }}
