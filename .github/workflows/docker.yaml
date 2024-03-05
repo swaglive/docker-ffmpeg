@@ -35,12 +35,12 @@ jobs:
           context: nvidia-ubuntu22.04
           nvidia_video_codec_sdk: "12.1.14.0"
           cuda: "12.1.1"
-          suffix: -nvidia12.1
+          suffix: -nvidiasdk12.1
         - flavor: nvidia12.0
           context: nvidia-ubuntu22.04
           nvidia_video_codec_sdk: "12.0.16.1"
           cuda: "11.8.0"
-          suffix: -nvidia12.0
+          suffix: -nvidiasdk12.0
         - flavor: slim
           context: slim
           suffix: -slim
