@@ -76,7 +76,7 @@ jobs:
           ghcr.io/${{ steps.config.outputs.image-owner }}/${{ steps.config.outputs.image-name }}
         flavor: |
           latest=false
-          suffix=-nvidia${{ matrix.nvidia_video_codec_sdk_short }}
+          suffix=-nvidiasdk${{ matrix.nvidia_video_codec_sdk_short }}
         tags: |
           type=semver,pattern={{major}}.{{minor}},value=${{ matrix.version }}
           type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ matrix.version }}
