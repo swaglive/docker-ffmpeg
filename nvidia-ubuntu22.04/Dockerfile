@@ -204,7 +204,10 @@ RUN         apt-get -y update && \
               opencl-headers \
               vulkan-tools \
               spirv-tools \
-              shaderc
+              shaderc && \
+            apt-get clean autoclean && \
+            apt-get autoremove -y && \
+            rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 COPY        --from=ffmpeg /usr/local/bin/ /usr/local/bin/
 COPY        --from=ffmpeg /usr/local/include/ /usr/local/include/
