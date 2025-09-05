@@ -51,7 +51,7 @@ jobs:
 
     - name: Configure
       id: config
-      uses: actions/github-script@v7
+      uses: actions/github-script@v8
       env:
         GITHUB_REPOSITORY_NAME: ${{ github.event.repository.name }}
       with:
